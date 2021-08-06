@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-const trace_api_requests = true;
+const trace_api_requests = false;
 
 test('dombook', async ({page}) => {  
   //const browser = await chromium.launch();  
@@ -48,10 +48,6 @@ test('dombook', async ({page}) => {
   await page.goto('https://dombook.ru/');
   for (const house of sales_top) {
     await page.goto(`https://dombook.ru/project/${house.id}`);
-    await page.goBack();
+    await page.goto('https://dombook.ru/');
   }
-  await page.goto('https://dombook.ru/');
-
-
-  await browser.close();
 });
