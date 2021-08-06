@@ -17,5 +17,5 @@ npm install -D @playwright/test
 # Usage
 Run in console
 ```
-npx playwright test
+npx playwright test --timeout=60000
 ```
