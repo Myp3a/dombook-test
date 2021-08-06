@@ -1,12 +1,12 @@
 const { test, expect } = require('@playwright/test');
 
+// If true, logs every API call
 const trace_api_requests = false;
 
 test('dombook', async ({page}) => {  
-  //const browser = await chromium.launch();  
-  //const page = await browser.newPage();
   var sales_top;
 
+  // Custom checker to return errored API
   expect.extend({
     apiResponse(received, code) {
       if (received.status() == code) {
@@ -23,8 +23,8 @@ test('dombook', async ({page}) => {
     }
   });
 
+  // Listen for page network requests
   page.on('request', async (request) => {
-    //console.log('>>', request.method(), request.url());
     if (request.url().includes('https://api.dombook.ru/api/')) {
       if (trace_api_requests) {
         console.log('>>', request.method(), request.url());
@@ -32,16 +32,16 @@ test('dombook', async ({page}) => {
     }
     });
   page.on('response', async (response) => {
-    //console.log('<<', response.status(), response.url())); 
     if (response.url().includes('https://api.dombook.ru/api/')) {
       if (trace_api_requests) {
         console.log('>>', response.status(), response.url());
       }
+      // API endpoint with top sellers
+      // Array gets populated only on first load
       if (response.url() == 'https://api.dombook.ru/api/project/top/saleCount' && typeof sales_top === 'undefined') {
         sales_top = await response.json()
       }
       expect(response).apiResponse(200)
-        //console.log(response.url(), 'failed with code', response.status())
       }
     }); 
 
