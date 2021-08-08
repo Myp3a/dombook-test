@@ -1,0 +1,25 @@
+{
+  "name": "dombook-test",
+  "version": "1.0.0",
+  "description": "Test suite for https://dombook.ru/",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Myp3a/dombook-test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Myp3a/dombook-test/issues"
+  },
+  "homepage": "https://github.com/Myp3a/dombook-test#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.13.1"
+  }
+}

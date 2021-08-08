@@ -9,9 +9,9 @@ Test suite for https://dombook.ru/
 # Installation
 Install NodeJS from https://nodejs.org/en/download/  
 
-Install Playwright-test
+Install required packages
 ```
-npm install -D @playwright/test
+npm install
 ```
 
 # Usage
