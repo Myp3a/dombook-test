@@ -4,8 +4,6 @@ const { test, expect } = require('@playwright/test');
 const trace_api_requests = false;
 
 test('dombook', async ({page}) => {  
-  var sales_top;
-
   // Custom checker to return errored API
   expect.extend({
     apiResponse(received, code) {
@@ -36,18 +34,20 @@ test('dombook', async ({page}) => {
       if (trace_api_requests) {
         console.log('>>', response.status(), response.url());
       }
-      // API endpoint with top sellers
-      // Array gets populated only on first load
-      if (response.url() == 'https://api.dombook.ru/api/project/top/saleCount' && typeof sales_top === 'undefined') {
-        sales_top = await response.json()
-      }
       expect(response).apiResponse(200)
       }
     }); 
 
   await page.goto('https://dombook.ru/');
-  for (const house of sales_top) {
-    await page.goto(`https://dombook.ru/project/${house.id}`);
+
+  // Load first 4 projects into array
+  let sales_top = []
+  for (const elem of (await page.$$('.project-card')).slice(0,4)) {
+    sales_top.push(await elem.getAttribute('href'))
+  }
+
+  for (const elem of sales_top) {
+    await page.goto(`https://dombook.ru${elem}`);
     await page.goto('https://dombook.ru/');
   }
 });
