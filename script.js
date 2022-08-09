@@ -3,25 +3,74 @@ let currDate = new Date();
 let year = currDate.getFullYear();
 let month = currDate.getMonth();
 
-const toggleWidget = () => {
-    if (widgetState) {
-        let widget = document.querySelector(".datepicker-widget");
-        widget.parentElement.removeChild(widget);
-        widgetState = false;
-    }
-    else {
-        let widget = document.querySelector("#datepicker").content.cloneNode(true);
-        widget.querySelector("#selector-year").innerHTML = `<option value="${year}">${year}</option>\n<option value="${year+1}">${year+1}</option>`;
-        widget.querySelector("#selector-month").value = month.toString().padStart(2, "0");
-        document.querySelector(".datepicker").appendChild(widget);
-        fillDays();
-        widgetState = true;
+const checkDates = () => {
+    let fromInput = document.querySelector("#from");
+    let toInput = document.querySelector("#to");
+    let fromDate = fromInput.valueAsDate;
+    let toDate = toInput.valueAsDate;
+    if (fromDate > toDate && toDate) {
+        [toInput.value, fromInput.value] = [fromInput.value, toInput.value];
     };
 };
 
-const hideWidget = () => {
+const oneWay = () => {
+    document.querySelector("#to").value = "";
+    removeWidget();
+};
+
+const createWidget = (direction) => {
+    let dirName;
+    let fromInput = document.querySelector("#from");
+    let fromDate = fromInput.valueAsDate;
+    if (!fromDate) {
+        direction = "from";
+    };
+    if (direction == "to") {
+        dirName = "До:";
+    };
+    if (direction == "from") {
+        dirName = "От:";
+    };
+    let widget = document.querySelector("#datepicker").content.cloneNode(true);
+    widget.querySelector("#selector-year").innerHTML = `<option value="${year}">${year}</option>\n<option value="${year+1}">${year+1}</option>`;
+    widget.querySelector("#selector-month").value = month.toString().padStart(2, "0");
+    widget.querySelector("#direction").innerHTML = dirName;
+    if (direction == "to") {
+        let oneWayBtn = document.createElement("button");
+        oneWayBtn.textContent = "В одну сторону";
+        oneWayBtn.addEventListener("click",oneWay);
+        widget.querySelector(".datepicker-widget-header").appendChild(oneWayBtn);
+    };
+    document.querySelector(".datepicker").appendChild(widget);
+    document.querySelector(".datepicker-widget").setAttribute("data-direction",direction);
+    fillDays();
+    widgetState = true;
+};
+
+const removeWidget = () => {
+    let widget = document.querySelector(".datepicker-widget");
+    widget.parentElement.removeChild(widget);
+    widgetState = false;
+};
+
+const toggleWidget = (e) => {
+    let direction = e.currentTarget.id;
+    if (direction != "to" && direction != "from") {
+        direction = "";
+    };
     if (widgetState) {
-        toggleWidget();
+        removeWidget();
+        if (direction) {
+            createWidget(direction);
+        }
+        else {
+            checkDates();
+        };
+    }
+    else {
+        if (direction) {
+            createWidget(direction);
+        };
     };
 };
 
@@ -54,11 +103,23 @@ const setMonth = (e) => {
 
 const setDay = (e) => {
     let dayBox = e.currentTarget;
+    let direction = document.querySelector("#widget").getAttribute("data-direction");
     let day = dayBox.querySelector("span").innerHTML;
-    let selYear = Number.parseInt(document.querySelector("#selector-year").value);
-    let selMonth = Number.parseInt(document.querySelector("#selector-month").value);
-    let chosenDate = `${selYear}-${(selMonth + 1).toString().padStart(2, "0")}-${day.padStart(2, "0")}`;
-    document.querySelector("#from").value = chosenDate;
+    if (day) {
+        let selYear = Number.parseInt(document.querySelector("#selector-year").value);
+        let selMonth = Number.parseInt(document.querySelector("#selector-month").value);
+        let chosenDate = `${selYear}-${(selMonth + 1).toString().padStart(2, "0")}-${day.padStart(2, "0")}`;
+        if (direction == "to") {
+            document.querySelector("#to").value = chosenDate;
+            removeWidget();
+            checkDates();
+        }
+        else if (direction == "from") {
+            document.querySelector("#from").value = chosenDate;
+            removeWidget();
+            createWidget("to");
+        };
+    };
 };
 
 const fillDays = () => {
@@ -66,7 +127,7 @@ const fillDays = () => {
     let table = daysArea.querySelector("#daytable");
     if (table) {
         daysArea.removeChild(table);
-    }
+    };
     let daysGroup = document.querySelector("#dayblock").content.cloneNode(true);
     let selYear = Number.parseInt(document.querySelector("#selector-year").value);
     let selMonth = Number.parseInt(document.querySelector("#selector-month").value);

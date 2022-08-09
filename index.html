@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html onclick="hideWidget();">
+<html onclick="toggleWidget(event);">
     <head>
         <title>Компонент выбора дат</title>
         <link rel="stylesheet" href="styles.css">
@@ -9,13 +9,16 @@
         <div class="datepicker">
             <div class="datepicker-fields">
                 <span>От: </span>
-                <input id="from" type="date" readonly onclick="toggleWidget(); event.stopPropagation();">
+                <input id="from" type="date" readonly onclick="toggleWidget(event); event.stopPropagation();">
+                <span>До: </span>
+                <input id="to" type="date" readonly onclick="toggleWidget(event); event.stopPropagation();">
             </div>
         </div>
         <template id="datepicker">
-            <div class="datepicker-widget">
+            <div id="widget" class="datepicker-widget">
                 <div id="selector-area" class="datepicker-widget-box" onclick="event.stopPropagation();">
                     <div class="datepicker-widget-header">
+                        <span id="direction"></span>
                         <select id="selector-month" class="datepicker-widget-dropdown" onchange="setYear(event);">
                             <option value="00">Январь</option>
                             <option value="01">Февраль</option>
