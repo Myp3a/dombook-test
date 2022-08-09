@@ -9,7 +9,7 @@
         <div class="datepicker">
             <div class="datepicker-fields">
                 <span>От: </span>
-                <input type="date" readonly onclick="toggleWidget(); event.stopPropagation();">
+                <input id="from" type="date" readonly onclick="toggleWidget(); event.stopPropagation();">
             </div>
         </div>
         <template id="datepicker">
@@ -38,7 +38,7 @@
             </div>
         </template>
         <template id="daybox">
-            <div class="datepicker-widget-days-elem" onclick="setDay();">
+            <div class="datepicker-widget-days-elem" onclick="setDay(event);">
                 <span></span>
             </div>
         </template>

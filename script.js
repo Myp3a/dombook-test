@@ -52,6 +52,15 @@ const setMonth = (e) => {
     };
 };
 
+const setDay = (e) => {
+    let dayBox = e.currentTarget;
+    let day = dayBox.querySelector("span").innerHTML;
+    let selYear = Number.parseInt(document.querySelector("#selector-year").value);
+    let selMonth = Number.parseInt(document.querySelector("#selector-month").value);
+    let chosenDate = `${selYear}-${(selMonth + 1).toString().padStart(2, "0")}-${day.padStart(2, "0")}`;
+    document.querySelector("#from").value = chosenDate;
+};
+
 const fillDays = () => {
     let daysArea = document.querySelector("#selector-area");
     let table = daysArea.querySelector("#daytable");
@@ -74,7 +83,7 @@ const fillDays = () => {
         let elem = document.querySelector("#daybox").content.cloneNode(true);
         if (weekday <= i) {
             currDay = i - weekday + 1;
-            elem.querySelector("span").innerHTML = currDay
+            elem.querySelector("span").innerHTML = currDay;
         };
         row.appendChild(elem);
     };
