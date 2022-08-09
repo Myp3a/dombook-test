@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html onclick="hideWidget();">
+    <head>
+        <title>Компонент выбора дат</title>
+        <link rel="stylesheet" href="styles.css">
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <div class="datepicker">
+            <div class="datepicker-fields">
+                <span>От: </span>
+                <input type="date" readonly onclick="toggleWidget(); event.stopPropagation();">
+            </div>
+        </div>
+        <template id="datepicker">
+            <div class="datepicker-widget">
+                <div id="selector-area" class="datepicker-widget-box" onclick="event.stopPropagation();">
+                    <div class="datepicker-widget-header">
+                        <select id="selector-month" class="datepicker-widget-dropdown" onchange="setYear(event);">
+                            <option value="00">Январь</option>
+                            <option value="01">Февраль</option>
+                            <option value="02">Март</option>
+                            <option value="03">Апрель</option>
+                            <option value="04">Май</option>
+                            <option value="05">Июнь</option>
+                            <option value="06">Июль</option>
+                            <option value="07">Август</option>
+                            <option value="08">Сентябрь</option>
+                            <option value="09">Октябрь</option>
+                            <option value="10">Ноябрь</option>
+                            <option value="11">Декабрь</option>
+                        </select>
+                        <select id="selector-year" class="datepicker-widget-dropdown" onchange="setMonth(event);">
+                            
+                        </select> 
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template id="daybox">
+            <div class="datepicker-widget-days-elem" onclick="setDay();">
+                <span></span>
+            </div>
+        </template>
+        <template id="dayblock">
+            <div id="daytable" class="datepicker-widget-days">
+                <div class="datepicker-widget-days-row">
+                    <div class="datepicker-widget-days-elem">
+                        <span>Пн</span>
+                    </div>
+                    <div class="datepicker-widget-days-elem">
+                        <span>Вт</span>
+                    </div>
+                    <div class="datepicker-widget-days-elem">
+                        <span>Ср</span>
+                    </div>
+                    <div class="datepicker-widget-days-elem">
+                        <span>Чт</span>
+                    </div>
+                    <div class="datepicker-widget-days-elem">
+                        <span>Пт</span>
+                    </div>
+                    <div class="datepicker-widget-days-elem">
+                        <span>Сб</span>
+                    </div>
+                    <div class="datepicker-widget-days-elem">
+                        <span>Вс</span>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </body>
+</html>

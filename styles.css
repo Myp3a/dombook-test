@@ -1,0 +1,22 @@
+.datepicker-widget-box {
+    margin: 10px;
+    padding: 5px;
+    border: 2px solid black;
+}
+
+.datepicker-widget-days-row {
+    display: flex;
+}
+
+.datepicker-widget-days-elem {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.datepicker-widget {
+    display: inline-flex;
+    min-width: 0px;
+}
